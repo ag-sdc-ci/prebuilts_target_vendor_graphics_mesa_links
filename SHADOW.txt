@@ -1,0 +1,16 @@
+shadow links repo: vendor_graphics_mesa_links (target)
+  purpose: compat symlinks so the iso graphics stack (gbm_gralloc links
+  libgbm_mesa; drm_hwcomposer EGL/GLES paths) resolves mesa libraries
+  across APEX linker-namespace boundaries. mesa standard apex provides
+  _mesa-suffixed sonames; consumers expect classic names.
+  mesa source: org.blisslabs.ag.mesa v1 (api 32, registry 2026-10-08),
+  libs verified present 2026-10-11 (libEGL.so, libgbm_mesa.so,
+  libGLESv2_mesa.so, libGLESv1_CM_mesa.so).
+  layout: 8 symlinks at root -> /apex/org.blisslabs.ag.mesa/lib/* (absolute).
+  deliberately NOT linked: libGL.so, libglapi.so, libxatracker.so (absent
+  from mesa payload); vulkan drivers libvulkan_*.so (loader-routed,
+  device-specific selection belongs in device config); VA-API *_drv_video.so
+  (LIBVA_DRIVERS_PATH-routed); dri_gbm/gbm-dri/gallium internals (mesa
+  dlopens these itself); libexpat.so (bundled dep, has own package).
+  content is API-independent (symlinks only): universal branch tracks HEAD.
+  date: 2026-10-11
